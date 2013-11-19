@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>React Calendar App</title>
+        <meta name="viewport" content="width=device-width">
+		<link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+		<script src="js/helpers.js"></script>
+		<script src="js/JSXTransformer.js"></script>
+		<script src="js/react.js"></script>
+		<script src="js/CalendarHelper.js"></script>
+    </head>
+    <body>
+		<div id="calendar"></div>
+		<script type="text/jsx">
+			/** @jsx React.DOM */
+			var Month = React.createClass({
+				render: function() {
+					var calendar = this.props.calendar;
+					var selectDay = this.props.selectDay;
+					var day1Pos = calendar.currentMonth.days[0].dow;
+					var daysInMonth = calendar.currentMonth.days.length;
+					var numEndBlanks = 7 - ( (day1Pos + daysInMonth) % 7);
+					numEndBlanks = (numEndBlanks > 6) ? 0 : numEndBlanks;
+					var endBlanks = [];
+					for (var i=0; i<numEndBlanks; i++) {
+						endBlanks.push(<p className="blank"></p>);
+					}
+					var topBlanks = [];
+					for(var i=0; i<day1Pos; i++) {
+						topBlanks.push(<p className="blank"></p>);
+					}
+					var getDays = function(day, ind) {
+						var selected = (day.selected == 1) ? 'selected' : '';
+						var cellDate = calendar.currentMonth.num+1+'-'+day.day+'-'+calendar.currentYear;
+						if (day.day === 1) {
+							return <span>{topBlanks}<a href="#" class={selected} id={cellDate} data-day={day.day} onClick={selectDay}>{day.day}</a></span>;
+						} else if (day.day === daysInMonth) {
+							return <span><a href="#" class={selected} id={cellDate} data-day={day.day} onClick={selectDay}>{day.day}</a>{endBlanks}</span>;
+						} else {
+							return <a href="#" class={selected} id={cellDate} data-day={day.day} onClick={selectDay}>{day.day}</a>;
+						}
+					};
+					return (
+						<div id="month-container">
+							<div className="days-of-week"><p>Sun</p><p>Mon</p><p>Tue</p><p>Wed</p><p>Thu</p><p>Fri</p><p>Sat</p></div>
+							{calendar.currentMonth.days.map(getDays)}
+							<div class="clear"></div>
+						</div>
+					);
+				}
+			});
+			var Navigator = React.createClass({
+				render: function() {
+					return (
+						<div>
+							<a href="#" className="calendar-navigator left" onClick={this.props.monthBack}>Prev</a>
+							<a href="#" className="calendar-navigator right" onClick={this.props.monthForward}>Next</a>
+						</div>
+					);
+				}
+			});
+			var CalendarApp = React.createClass({
+				getInitialState: function() {
+					return ({ calendar: _calendar });
+				},
+				getMonthDays: function(num) {
+					var days = [];
+					var currentDate;
+					for (var i=0; i<num; i++) {
+						currentDate = new Date(this.state.calendar.currentYear, this.state.calendar.currentMonth.num, i+1);
+						var selected = (this.state.calendar.selected_dates.indexOf(formatDate(currentDate)) != -1) ? 1 : 0;
+						days.push({'day': i+1, 'selected': selected, 'dow': currentDate.getDay() });
+					}
+					return days;
+				},
+				monthBack: function(event) {
+					var newCalendar = this.state.calendar;
+					if (newCalendar.currentMonth.num === 0) {
+						newCalendar.currentMonth.num = 11;
+						newCalendar.currentYear = newCalendar.currentYear - 1;
+					} else {
+						newCalendar.currentMonth.num = newCalendar.currentMonth.num - 1;
+					}
+					newCalendar.currentMonth.name = calendarHelper.months[newCalendar.currentMonth.num].name;
+					newCalendar.currentMonth.days = this.getMonthDays(calendarHelper.daysInMonth(newCalendar.currentMonth.num, newCalendar.currentYear));
+					this.setState({calendar:newCalendar});
+					return false;
+				},
+				monthForward: function(event) {
+					var newCalendar = this.state.calendar;
+					if (newCalendar.currentMonth.num === 11) {
+						newCalendar.currentMonth.num = 0;
+						newCalendar.currentYear = newCalendar.currentYear + 1;
+					} else {
+						newCalendar.currentMonth.num = newCalendar.currentMonth.num + 1;
+					}
+					newCalendar.currentMonth.name = calendarHelper.months[newCalendar.currentMonth.num].name;
+					newCalendar.currentMonth.days = this.getMonthDays(calendarHelper.daysInMonth(newCalendar.currentMonth.num, newCalendar.currentYear));
+					this.setState({calendar:newCalendar});
+					return false;
+				},
+				selectDay: function(e) {
+					var day = e.target;
+					var thisDate = day.getAttribute('id');
+					var newCalendar = this.state.calendar;
+					var dateIndex = newCalendar.selected_dates.indexOf(thisDate);
+					if (dateIndex != -1) {
+						newCalendar.selected_dates.splice(dateIndex, 1);
+						newCalendar.currentMonth.days = this.getMonthDays(calendarHelper.daysInMonth(newCalendar.currentMonth.num, newCalendar.currentYear));
+					} else {
+						//newCalendar.currentMonth.days[day.getAttribute('data-day')].selected = 1;
+						newCalendar.selected_dates.push(thisDate);
+						newCalendar.currentMonth.days = this.getMonthDays(calendarHelper.daysInMonth(newCalendar.currentMonth.num, newCalendar.currentYear));
+					}
+					this.setState({calendar:newCalendar});
+					return false;
+				},
+				render: function() {
+					return (
+						<div id="calendar-app-container">
+							<div id="calendar-top">
+								<h3>{this.state.calendar.currentMonth.name}{' '}{this.state.calendar.currentYear}</h3>
+								<Navigator monthBack={this.monthBack} monthForward={this.monthForward}/>
+							</div>
+							<Month calendar={this.state.calendar} selectDay={this.selectDay} />
+						</div>
+					);
+				}
+			});
+
+			var container = document.getElementById('calendar');
+			React.renderComponent(
+				<CalendarApp />,
+				container
+			);
+		</script>
+    </body>
+</html>

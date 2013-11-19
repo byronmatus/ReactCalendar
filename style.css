@@ -1,0 +1,78 @@
+.clear {
+  clear: both; }
+
+#calendar-app-container {
+  max-width: 680px;
+  margin: 0px auto;
+  padding: 10px;
+  border: 3px solid #949494;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-color: lightblue;
+  font-family: monospace; }
+  #calendar-app-container div {
+    margin: 0px auto; }
+  #calendar-app-container a {
+    text-decoration: none;
+    color: #000; }
+  #calendar-app-container #month-container {
+    border: 3px solid #eeeeee;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #eeeeee;
+    max-width: 665px;
+    margin-top: 5px; }
+    #calendar-app-container #month-container .days, #calendar-app-container #month-container p, #calendar-app-container #month-container a:visited, #calendar-app-container #month-container a:link, #calendar-app-container #month-container a:active, #calendar-app-container #month-container a.selected, #calendar-app-container #month-container p.blank, #calendar-app-container #month-container .days-of-week p {
+      display: block;
+      float: left;
+      padding: 6px 0px 0px 6px;
+      height: 40px;
+      width: 80px;
+      margin: 5px 2.5px;
+      border: 2px solid #666666;
+      background-color: #fff; }
+    #calendar-app-container #month-container a:active {
+      border-color: #ebebeb;
+      color: #666666; }
+    #calendar-app-container #month-container a.selected {
+      background: gainsboro; }
+      #calendar-app-container #month-container a.selected a:active {
+        border-color: gainsboro; }
+    #calendar-app-container #month-container p.blank {
+      background-color: snow;
+      border-color: #949494; }
+    #calendar-app-container #month-container .days-of-week p {
+      background-color: lightslategray;
+      color: snow;
+      text-align: center;
+      font-size: 1.3em;
+      padding: 12px 3px 0px 3px;
+      height: 34px;
+      width: 80px; }
+  #calendar-app-container #calendar-top {
+    position: relative;
+    text-align: center; }
+    #calendar-app-container #calendar-top h3 {
+      margin: 0px 0px 10px 0px;
+      font-size: 1.8em;
+      color: brown; }
+    #calendar-app-container #calendar-top a.calendar-navigator:link, #calendar-app-container #calendar-top a.calendar-navigator:visited {
+      display: block;
+      position: absolute;
+      bottom: 0px;
+      height: 23px;
+      width: 80px;
+      background-color: lightslategrey;
+      color: #fbfbfb;
+      font-size: 1.2em;
+      padding: 4px 2px 0px 2px; }
+      #calendar-app-container #calendar-top a.calendar-navigator:link.right, #calendar-app-container #calendar-top a.calendar-navigator:visited.right {
+        right: 8px; }
+      #calendar-app-container #calendar-top a.calendar-navigator:link.left, #calendar-app-container #calendar-top a.calendar-navigator:visited.left {
+        left: 8px; }

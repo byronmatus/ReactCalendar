@@ -1,0 +1,113 @@
+		
+		$lightGrey: #eeeeee;
+		$mediumGrey: #949494;
+		$darkGrey: #666666;
+		$headerColor: brown;
+		$mainBackgroundColor: lightblue;
+		
+		
+		$daysVertSpace: 5;
+		$daysHorizSpace: 2.5;
+		$daysHeight: 46;
+		$daysWidth: 86;
+		$daysBorderWidth: 2;
+		$monthWidth: ( ( $daysHorizSpace * 2) + $daysWidth + ( $daysBorderWidth * 2) ) * 7;
+		$maxWidth: $monthWidth + 15;
+		
+		@mixin border-radius($radius) {
+		  -webkit-border-radius: $radius;
+			 -moz-border-radius: $radius;
+			  -ms-border-radius: $radius;
+			   -o-border-radius: $radius;
+				  border-radius: $radius;
+		}
+		@mixin sizeDay( $padTop, $padRight, $padBottom, $padLeft ) {
+			padding: $padTop $padRight $padBottom $padLeft;
+			height: $daysHeight - ( $padTop + $padBottom );
+			width: $daysWidth - ( $padLeft + $padRight );
+		}
+		.clear { clear: both; } 
+		#calendar-app-container {
+			max-width: $maxWidth+px;
+			margin: 0px auto;
+			padding: 10px;
+			border: 3px solid $mediumGrey;
+			@include border-radius(3px);
+			background-color: $mainBackgroundColor;
+			font-family: monospace;
+			div { 
+				margin: 0px auto; 
+			}
+			a {
+				text-decoration: none; color: #000;
+			}
+			#month-container {
+				border: 3px solid $lightGrey;
+				@include border-radius(3px);
+				background-color: $lightGrey;
+				max-width: $monthWidth+px;
+				margin-top: 5px;
+				
+				.days {
+					display: block;
+					float: left;
+					@include sizeDay(6px, 0px, 0px, 6px);
+					margin: $daysVertSpace+px $daysHorizSpace+px;
+					border: $daysBorderWidth+px solid $darkGrey;
+					background-color: #fff;
+				}
+				p, a:visited, a:link{
+					@extend .days;
+				}
+				a:active {
+					@extend .days;
+					border-color: #ebebeb;
+					color: $darkGrey;
+				}
+				a.selected {
+					@extend .days;
+					background: gainsboro;
+					
+					a:active {
+						border-color:gainsboro;
+					}
+				}
+				p.blank {
+					@extend .days;
+					background-color: snow;
+					border-color: $mediumGrey;
+				}
+				.days-of-week p {
+					@extend .days;
+					background-color: lightslategray;
+					color: snow;
+					text-align: center;
+					font-size: 1.3em;
+					@include sizeDay(12px, 3px, 0px, 3px);
+				}
+			}
+			#calendar-top {
+				position:relative;
+				text-align:center;
+				h3 {
+					margin: 0px 0px 10px 0px;
+					font-size: 1.8em;
+					color: $headerColor;
+				}
+				a.calendar-navigator:link, a.calendar-navigator:visited {
+					display:block;
+					position:absolute;
+					bottom:0px;
+					height:23px;
+					width:80px;
+					background-color:lightslategrey;
+					color:#fbfbfb;
+					font-size: 1.2em;
+					padding:4px 2px 0px 2px;
+					
+					&.right { right:8px; }
+					&.left { left:8px }
+				}
+			}
+
+		}
