@@ -34,18 +34,18 @@
 						var selected = (day.selected == 1) ? 'selected' : '';
 						var cellDate = calendar.currentMonth.num+1+'-'+day.day+'-'+calendar.currentYear;
 						if (day.day === 1) {
-							return <span>{topBlanks}<a href="#" class={selected} id={cellDate} data-day={day.day} onClick={selectDay}>{day.day}</a></span>;
+							return <span>{topBlanks}<a href="#" className={selected} id={cellDate} data-day={day.day} onClick={selectDay}>{day.day}</a></span>;
 						} else if (day.day === daysInMonth) {
-							return <span><a href="#" class={selected} id={cellDate} data-day={day.day} onClick={selectDay}>{day.day}</a>{endBlanks}</span>;
+							return <span><a href="#" className={selected} id={cellDate} data-day={day.day} onClick={selectDay}>{day.day}</a>{endBlanks}</span>;
 						} else {
-							return <a href="#" class={selected} id={cellDate} data-day={day.day} onClick={selectDay}>{day.day}</a>;
+							return <a href="#" className={selected} id={cellDate} data-day={day.day} onClick={selectDay}>{day.day}</a>;
 						}
 					};
 					return (
 						<div id="month-container">
 							<div className="days-of-week"><p>Sun</p><p>Mon</p><p>Tue</p><p>Wed</p><p>Thu</p><p>Fri</p><p>Sat</p></div>
 							{calendar.currentMonth.days.map(getDays)}
-							<div class="clear"></div>
+							<div className="clear"></div>
 						</div>
 					);
 				}
