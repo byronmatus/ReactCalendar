@@ -1,3 +1,7 @@
+## **NOTE:**
+This repository is not being maintained or updated. A newer implementation of this calendar as a Date Picker component is available at: https://github.com/ibrius/react-js-date-picker
+
+
 ReactCalendar
 =============
 
